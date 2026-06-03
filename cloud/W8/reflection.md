@@ -72,3 +72,13 @@ Các block phổ biến:
 
 - Luồng truy cập cơ bản có thể hình dung là `Internet -> Ingress -> Service -> Deployment -> Pod`.
 - `NetworkPolicy` đóng vai trò như firewall ở mức Pod, kiểm soát Pod nào được phép giao tiếp với Pod nào.
+
+## Day C: Terraform Structure và State
+
+- Học được cách tổ chức Terraform rõ ràng hơn với `modules/` và `envs/dev`.
+- Hiểu vì sao nên tách `vpc`, `ec2`, `rds` thành các module riêng để dễ đọc và tái sử dụng.
+- Hiểu cách truyền dữ liệu giữa các module bằng `variables` và `outputs`.
+- Học được cách dùng remote state với `S3 backend`, và hiểu backend phải init trước nên không dùng `var.xxx` như resource thường.
+- Biết thêm về state locking và vai trò của lock khi nhiều lần chạy Terraform cùng đụng vào một state.
+- Thực tế hơn ở chỗ thấy được `terraform plan` rất quan trọng để kiểm tra trước khi apply.
+- Rút ra thêm một điểm quan trọng là nếu `apply` lỗi giữa chừng thì Terraform không tự rollback toàn bộ resource đã tạo.
