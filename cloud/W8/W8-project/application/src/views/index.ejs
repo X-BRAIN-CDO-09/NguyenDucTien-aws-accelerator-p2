@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">W8 Project Demo</p>
+          <h1><%= pageTitle %></h1>
+          <p class="lede">
+            A tiny Node.js app running inside a minikube cluster on one EC2 instance,
+            published to the internet through an AWS Application Load Balancer.
+          </p>
+          <p class="caption">Mode: <%= repoMode %></p>
+
+          <div class="hero-actions">
+            <a class="button primary" href="/api/projects">Open API</a>
+            <span class="status-pill healthy">
+              minikube cluster ready
+            </span>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <div class="metric">
+            <span class="metric-label">Projects loaded</span>
+            <strong class="metric-value"><%= projects.length %></strong>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Cluster</span>
+            <strong class="metric-value"><%= clusterName %></strong>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Delivery path</span>
+            <strong class="metric-value">ALB -> Ingress -> App</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="table-card">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Live Snapshot</p>
+            <h2>Launch Board</h2>
+          </div>
+          <span class="caption">Stage: <%= appStage %></span>
+        </div>
+
+        <% if (projects.length === 0) { %>
+          <div class="empty-state">
+            <p>No rows found yet. Refresh after the workload is deployed.</p>
+          </div>
+        <% } else { %>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>Owner</th>
+                  <th>Scope</th>
+                  <th>Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% projects.forEach((project) => { %>
+                  <tr>
+                    <td><strong><%= project.name %></strong></td>
+                    <td>
+                      <span class="tag"><%= project.status %></span>
+                    </td>
+                    <td><%= project.owner %></td>
+                    <td><%= project.environment %></td>
+                    <td><%= new Date(project.updatedAt).toLocaleString() %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </section>
+    </main>
+  </body>
+</html>

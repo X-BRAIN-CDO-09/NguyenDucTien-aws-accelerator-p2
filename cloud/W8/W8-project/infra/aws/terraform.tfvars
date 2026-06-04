@@ -1,0 +1,13 @@
+aws_region             = "ap-southeast-1"
+project_name           = "w8-minikube-lab"
+environment            = "dev"
+vpc_cidr               = "10.30.0.0/16"
+public_subnet_cidr     = "10.30.1.0/24"
+alb_public_subnet_cidr = "10.30.2.0/24"
+availability_zone      = "ap-southeast-1a"
+alb_availability_zone  = "ap-southeast-1b"
+instance_type          = "t3.medium"
+allowed_ssh_cidr       = "0.0.0.0/0"
+app_image              = "730335441285.dkr.ecr.ap-southeast-1.amazonaws.com/w8-project:latest"
+app_node_port          = 30080
+root_volume_size       = 20

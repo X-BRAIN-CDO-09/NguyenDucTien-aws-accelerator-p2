@@ -1,0 +1,8 @@
+node_modules/
+infra/aws/.terraform/
+infra/aws/terraform.tfstate
+infra/aws/terraform.tfstate.*
+infra/aws/*.tfplan
+infra/aws/crash.log
+infra/aws/*_id_ed25519
+infra/aws/*_id_ed25519.pub
