@@ -132,7 +132,31 @@ Thứ tự hợp lý nhất để trình bày là:
 
 `Giải thích được vì sao chọn cách làm đó`
 
-- Chứng minh bằng phần `Provider Wiring` trong [README.md](/Users/ductiennguyen/Documents/Project/xbrain/NguyenDucTien-aws-accelerator-p2/cloud/W8/W8-project/README.md:1)
+Lab này dùng nhiều provider trong cùng một cấu hình và chúng được wire với nhau như sau:
+
+- `tls`: tạo SSH key pair bằng `tls_private_key`.
+- `local`: ghi private key ra máy local bằng `local_sensitive_file`.
+- `aws`: tạo `aws_key_pair` từ public key vừa sinh, sau đó gắn key pair này vào EC2 và dựng toàn bộ hạ tầng AWS.
+- `cloudinit`: render `user_data` cho EC2 từ shell template, giúp bootstrap `minikube`, pull image từ ECR và apply workload Kubernetes.
+
+Flow thực tế:
+
+```text
+tls_private_key
+  -> local_sensitive_file
+  -> aws_key_pair
+  -> aws_instance
+
+template shell script
+  -> cloudinit_config
+  -> aws_instance.user_data
+```
+
+Vì sao chọn cách này:
+
+- Không cần tạo sẵn key pair thủ công trên AWS.
+- `user_data` vẫn đọc dễ như shell script, nhưng được `cloudinit` render nhất quán.
+- Toàn bộ lab có thể dựng lại từ đầu với cùng một Terraform config.
 
 `Dọn được sạch sau khi xong`
 

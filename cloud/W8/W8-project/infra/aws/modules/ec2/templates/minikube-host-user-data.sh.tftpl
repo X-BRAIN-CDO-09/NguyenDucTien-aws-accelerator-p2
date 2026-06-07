@@ -26,7 +26,6 @@ chmod +x /usr/local/bin/minikube
 sudo -iu ubuntu minikube start \
   --driver=docker \
   --ports=${app_node_port}:${app_node_port} \
-  --extra-config=apiserver.service-node-port-range=1-65535
 
 ECR_REGISTRY="$(printf '%s' '${app_image}' | cut -d/ -f1)"
 aws ecr get-login-password --region "${aws_region}" \
