@@ -49,3 +49,35 @@
   - GitOps lo đồng bộ trạng thái đã được duyệt xuống cluster.
 - Điểm quan trọng nhất tôi rút ra hôm nay là nên tránh deploy thủ công trực tiếp vào cluster nếu đã chọn mô hình GitOps.
 - Ngoài ra, rollback không nên chỉ nghĩ là “quay lại bản cũ”, mà phải nghĩ đến việc giữ cho trạng thái trong git và trong hệ thống luôn nhất quán.
+
+# Day B - Observability
+
+## Topics covered
+
+1. `Prometheus + Grafana + Loki + Promtail`
+2. `OTel SDK + OTel Collector`
+3. `SLI / SLO`
+4. `Availability + Latency SLO methodology`
+5. `Multi-window burn rate alert`
+
+## High-level picture
+
+```text
+App
+  -> metrics
+  -> logs
+  -> traces
+
+metrics -> Prometheus -> Grafana
+logs    -> Promtail/Collector -> Loki -> Grafana
+traces  -> OTel SDK -> OTel Collector -> tracing backend
+```
+
+## Learning goal
+
+Hiểu được:
+
+- observability stack vận hành ra sao
+- app instrument bằng OTel như thế nào
+- SLI / SLO được định nghĩa thế nào
+- burn rate alert dùng để phát hiện đang đốt error budget nhanh hay chậm
