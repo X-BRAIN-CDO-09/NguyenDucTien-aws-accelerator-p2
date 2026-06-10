@@ -81,3 +81,38 @@ Hiểu được:
 - app instrument bằng OTel như thế nào
 - SLI / SLO được định nghĩa thế nào
 - burn rate alert dùng để phát hiện đang đốt error budget nhanh hay chậm
+
+# Day C - Progressive Delivery (Canary)
+
+## Topics covered
+
+1. `Argo Rollouts`
+2. `Rollout CRD`
+3. `Canary strategy`
+4. `AnalysisTemplate với Prometheus query`
+5. `Abort criteria`
+6. `Integration với burn rate`
+
+## High-level picture
+
+```text
+new version
+  -> rollout theo từng bước
+  -> đo metric từ Prometheus
+  -> nếu ổn thì tăng traffic
+  -> nếu xấu thì abort / rollback
+```
+
+## What I learned
+
+- `Canary` không chỉ là chia traffic, mà là phát hành có kiểm soát dựa trên tín hiệu quan sát được.
+- `Argo Rollouts` cung cấp rollout strategy nâng cao hơn `Deployment`, đặc biệt hữu ích khi cần pause, analysis và abort tự động.
+- `Rollout CRD` là trung tâm của cách làm này vì nó mô tả từng bước promote version mới.
+- `AnalysisTemplate` giúp gắn rollout với metric thật từ `Prometheus` như success rate, error rate hoặc latency.
+- `Abort criteria` là phần quyết định giá trị thực tế của canary, vì rollout phải biết khi nào dừng thay vì chỉ tăng traffic theo lịch cố định.
+- Điểm quan trọng nhất hôm nay là có thể nối canary với `burn rate`, tức là dùng logic SLO/error budget để quyết định có nên tiếp tục rollout hay không.
+
+## Takeaway
+
+- `Progressive Delivery` hợp lý nhất khi đứng cùng `observability`.
+- `AnalysisTemplate + Prometheus + burn rate` là cách biến canary từ một kỹ thuật deploy thành một cơ chế giảm rủi ro thực sự.
