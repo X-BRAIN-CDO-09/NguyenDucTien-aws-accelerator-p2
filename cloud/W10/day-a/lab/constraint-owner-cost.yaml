@@ -1,0 +1,13 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredLabels # Gọi đúng cái Kind mà thằng Template ở Bước 1 vừa sinh ra!
+metadata:
+  name: pod-must-have-owner-and-cost
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"] # Áp dụng cho Pod
+    namespaces:
+      - development # Chỉ áp dụng cho namespace development
+  parameters:
+    labels: ["owner", "cost-center"] # Truyền tham số thực tế vào hàm Rego!

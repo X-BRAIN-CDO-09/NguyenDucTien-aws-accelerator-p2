@@ -1,0 +1,29 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8srequiredlabels
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sRequiredLabels # Định nghĩa ra một cái Kind mới toanh cho Cluster
+      validation:
+        openAPIV3Schema:
+          type: object
+          properties:
+            labels: # Khai báo rằng cái Hàm này nhận vào một tham số tên là "labels" dạng mảng
+              type: array
+              items:
+                type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8srequiredlabels
+        # Đoạn code Rego dưới đây sẽ quét tất cả các label truyền vào tham số
+        violation[{"msg": msg}] {
+          provided := {label | input.review.object.metadata.labels[label]}
+          required := {label | label := input.parameters.labels[_]}
+          missing  := required - provided
+          count(missing) > 0
+          msg := sprintf("Bạn thiếu các label bắt buộc sau: %v", [missing])
+        }
