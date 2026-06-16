@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-web-app
+  namespace: default
+spec:
+  containers:
+    - name: web-container
+      image: alpine
+      command:
+        [
+          "sh",
+          "-c",
+          "echo 'App đang chạy với database user:' $DB_USER_ENV 'và pass:' $DB_PASS_ENV && sleep 3600",
+        ]
+      env:
+        - name: DB_USER_ENV
+          valueFrom:
+            secretKeyRef:
+              name: k8s-db-secret
+              key: DB_USER
+        - name: DB_PASS_ENV
+          valueFrom:
+            secretKeyRef:
+              name: k8s-db-secret
+              key: DB_PASS
